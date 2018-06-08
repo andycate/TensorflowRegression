@@ -61,7 +61,6 @@ class Data:
         labels = np.take(lbls, index) # take the labels that correspond to 1 or 0
         images = np.take(imgs, index, axis=-1) # take the images that correspond to 1 or 0
         images = self.normalize_images(images) # apply zero mean and unit variance normalization to the images
-        images = np.append(images, np.ones((1, images.shape[1])), axis=0) # append ones to image data for intercept term
         return images, labels
 
     """display image for visualization purposes"""
