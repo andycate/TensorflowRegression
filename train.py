@@ -16,7 +16,15 @@ train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)
 sess = tf.InteractiveSession()
 tf.global_variables_initializer().run()
 
-for _ in range(1000):
+def test_error():
+    correct_prediction = tf.equal(tf.round(y), tf.round(y_))
+    accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+    return sess.run(accuracy, feed_dict={x: data.test_images, y_: data.test_labels.reshape(1, data.test_labels.shape[0])})
+
+print("before: ", test_error())
+
+for _ in range(100):
     batch_xs, batch_ys = data.next_batch()
-    print(batch_xs.transpose().shape)
     sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys.reshape(1, 100)})
+
+print("after: ", test_error())
