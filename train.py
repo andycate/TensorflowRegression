@@ -13,8 +13,8 @@ y_ = tf.placeholder(tf.float32, shape=[1, None])
 cross_entropy = tf.reduce_mean(-(y_ * tf.log(y)) - ((1 - y_) * (1 - y)))
 train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)
 
-sess = tf.InteractiveSession()
-tf.global_variables_initializer().run()
+sess = tf.Session()
+tf.global_variables_initializer().run(session=sess)
 
 def test_error():
     correct_prediction = tf.equal(tf.round(y), tf.round(y_))
@@ -23,7 +23,7 @@ def test_error():
 
 print("before: ", test_error())
 
-for _ in range(100):
+for _ in range(200):
     batch_xs, batch_ys = data.next_batch()
     sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys.reshape(1, 100)})
 
